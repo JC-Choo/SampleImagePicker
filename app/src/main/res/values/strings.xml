@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ImagePickerSample</string>
+
+    <string name="image_picker">image_picker</string>
+    <string name="select_image">select_image</string>
+    <string name="take_picture">take_picture</string>
+    <string name="selected_image">selected_image</string>
+    <string name="set_image">set_image</string>
 </resources>
