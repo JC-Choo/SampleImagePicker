@@ -2,7 +2,6 @@ package dev.chu.imagepickersample
 
 import android.Manifest
 import android.net.Uri
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +16,8 @@ import java.io.File
  */
 
 class ImagePicker(
-    private val activity: AppCompatActivity, private val onImagePickerResult: (Uri) -> Unit
+    private val activity: AppCompatActivity,
+    private val onImagePickerResult: (Uri) -> Unit
 ) : DefaultLifecycleObserver {
 
     private lateinit var requestCameraPermission: ActivityResultLauncher<String>
@@ -36,8 +36,7 @@ class ImagePicker(
         requestCameraPermission =
             activity.activityResultRegistry.register("requestCameraPermission",
                 owner,
-                ActivityResultContracts.RequestPermission(),
-                ActivityResultCallback<Boolean> { isGranted ->
+                ActivityResultContracts.RequestPermission(), { isGranted ->
                     if (isGranted) {
                         takePicture()
                     } else {
@@ -47,8 +46,7 @@ class ImagePicker(
 
         getImageContent = activity.activityResultRegistry.register("getImageContent",
             owner,
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback<Uri> { uri ->
+            ActivityResultContracts.GetContent(), { uri ->
                 if (uri != null) {
                     onImagePickerResult(uri)
                 }
@@ -56,8 +54,7 @@ class ImagePicker(
 
         takePicture = activity.activityResultRegistry.register("takePicture",
             owner,
-            ActivityResultContracts.TakePicture(),
-            ActivityResultCallback<Boolean> { success ->
+            ActivityResultContracts.TakePicture(), { success ->
                 if (success) {
                     onImagePickerResult(getCameraCacheUri())
                 }
